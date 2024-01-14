@@ -1,6 +1,6 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors'); 
+const morgan = require("morgan");
 const authRoutes = require('./routes/authRoutes'); // Import your authentication routes module
 const pool = require('./config/db'); // Import your PostgreSQL connection pool
 
@@ -9,8 +9,8 @@ const app = express();
 require("dotenv").config();
 
 // Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(morgan("dev"));
 app.use(cors());
 
 // Routes
@@ -25,7 +25,7 @@ pool.query('SELECT NOW()', (err, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
   console.log(`Server is listening at port ${PORT}`);
