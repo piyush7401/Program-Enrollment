@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken"); 
 
 async function registerController(req, res) {
-  const { username, email, password } = req.body;
-
+  const { name, email, password } = req.body;
+  console.log(name);
   try {
     // Check email already exists
     const existingUser = await pool.query(
@@ -22,16 +22,16 @@ async function registerController(req, res) {
     // Insert new user into the database
     const newUser = await pool.query(
       "INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING *",
-      [username, hashedPassword, email]
+      [name, hashedPassword, email]
     );
 
     // Generate JWT token
     const token = jwt.sign(
-      { userid: newUser.rows[0].userid },
+      { createdBy: newUser.rows[0].userid },
       process.env.SECRET
     );
 
-    res.json({ token });
+    res.status(201).cookie("token",token,{samesite:"none",secure:true}).json({ success: true,token });
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -60,8 +60,8 @@ async function loginController(req, res) {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userid: user.rows[0].userid }, process.env.SECRET);
-    res.json({ token });
+    const token = jwt.sign({ createdBy: user.rows[0].userid }, process.env.SECRET);
+    res.status(201).cookie("token",token,{samesite:"none",secure:true}).json({ success: true,token,user });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Internal Server Error" });
