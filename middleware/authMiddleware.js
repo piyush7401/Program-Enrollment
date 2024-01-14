@@ -8,9 +8,10 @@ async function userAuth(req, res, next){
   }
   // const token = authHeader.split(" ")[1];
   try {
-    const payload = JWT.verify(token, process.env.JWT_SECRET);
+    const payload = JWT.verify(token, process.env.SECRET);
     req.createdBy =  payload.createdBy;
-    // console.log(req.userId);
+    console.log(req.createdBy);
+    console.log(payload);
     next();
   } catch (error) {
     next("Auth Failed");
