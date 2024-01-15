@@ -17,10 +17,10 @@ const Login = () => {
     console.log( email, password );
     try {
       setUser({email,password});
-      const {data} = await axios.post('http://localhost:8000/auth/login',{email,password});
+      const {data} = await axios.post('/auth/login',{email,password});
       if (data.success) {
         alert("Login Successfully ");
-        navigate("/dashboard");
+        navigate("/DashBoard");
       }
     } catch {
       alert("invalid data");

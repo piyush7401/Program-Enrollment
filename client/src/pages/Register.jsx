@@ -1,91 +1,103 @@
-import React, { useContext, useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
-import InputForm from "../components/share/InputForm";
-// import UserContext from "../context/UserContext";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Form, Input, Button, Alert } from "antd";
 import axios from "axios";
 
 const Register = () => {
-
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-//   const {setUser} = useContext(UserContext);  
-
-  const handlesubmit = async(e) => {
-    e.preventDefault();
-    console.log(name, email, password);
+  const handleSubmit = async (values) => {
     try {
-      const {data} = await axios.post('http://localhost:8000/auth/register',{name,email,password});
+      const { data } = await axios.post("/auth/register", values);
       if (data.success) {
         alert("Register Successfully ");
         navigate("/");
       }
-    } catch {
-      alert("invalid data");
-      console.log(e.error);
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
+      console.error(error);
     }
   };
 
-  const handleNamechange = (e) => {
-    setName(e.target.value);
-  };
-
-  const handlePasswordchange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleEmailchange = (e) => {
-    setEmail(e.target.value);
-  };
-
   return (
-    <>
-      <div className="form-container">
-        <form className="p-5" onSubmit={handlesubmit}>
-          <div className="mb-3">
-            <h1>Registration is Required!!</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <Form
+        name="register"
+        onFinish={handleSubmit}
+        scrollToFirstError
+        className="bg-white p-8 rounded-md shadow-md"
+      >
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold mb-2">Registration is Required!!</h1>
+        </div>
+        <div className="space-y-4">
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your name!",
+              },
+            ]}
+          >
+            <Input className="w-full" />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              {
+                type: "email",
+                message: "The input is not a valid email!",
+              },
+              {
+                required: true,
+                message: "Please input your email!",
+              },
+            ]}
+          >
+            <Input className="w-full" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password className="w-full" />
+          </Form.Item>
+        </div>
+        <div className="mt-6">
+          <div className="flex justify-between items-center">
+            <p>
+              Already Registered!! <Link to="/">Login</Link>
+            </p>
+            <Button type="primary" htmlType="submit">
+              Register
+            </Button>
           </div>
-          <h5>
-            <InputForm
-              htmlFor="name"
-              labelText="Name"
-              type="text"
-              name="name"
-              value={name}
-              handleChange={handleNamechange}
-            ></InputForm>
-            <InputForm
-              htmlFor="email"
-              labelText="Email"
-              type="email"
-              name="email"
-              value={email}
-              handleChange={handleEmailchange}
-            ></InputForm>
-            <InputForm
-              htmlFor="password"
-              labelText="Password"
-              type="password"
-              name="password"
-              value={password}
-              handleChange={handlePasswordchange}
-            ></InputForm>
-          </h5>
-          <h5>
-            <div className="d-flex justify-content-between">
-              <p>
-                Already Registered!! <Link to="/">Login</Link>
-              </p>
-              <button type="submit" className="btn btn-primary">
-                Register
-              </button>
-            </div>
-          </h5>
-        </form>
-      </div>
-    </>
+        </div>
+        {error && (
+          <Alert
+            message={error}
+            type="error"
+            showIcon
+            className="mt-4"
+          />
+        )}
+      </Form>
+    </div>
   );
 };
 
