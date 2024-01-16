@@ -4,7 +4,6 @@ const morgan = require("morgan");
 const cookie_Parser = require("cookie-parser");
 const authRoutes = require('./routes/authRoutes'); 
 const programRoutes = require('./routes/programRoutes');
-const pool = require('./config/db'); // Import your PostgreSQL connection pool
 
 const app = express();
 
@@ -28,15 +27,19 @@ app.use('/auth', authRoutes); // Include authentication routes under '/auth'
 app.use('/programs', programRoutes);
 
 // Check the database connection
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('Error executing query', err.stack);
-  } else {
-    console.log('Connected to PostgreSQL on', res.rows[0].now);
-  }
-});
+// pool.query('SELECT NOW()', (err, res) => {
+//   if (err) {
+//     console.error('Error executing query', err.stack);
+//   } else {
+//     console.log('Connected to PostgreSQL on', res.rows[0].now);
+//   }
+// });
+// const pool = new Pool({
+//   connectionString:process.env.POSTGRES_URL+"?sslmode=require",
+// });
+
 app.get('/test',(req,res)=>{
-  res.send("hiiiiiii")
+  res.send("server is running!")
 })
 
 const PORT = process.env.PORT || 8000;

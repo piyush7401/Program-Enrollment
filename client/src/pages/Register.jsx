@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Alert } from "antd";
 import axios from "axios";
+import { BACKEND_URL } from "../variables";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const Register = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const { data } = await axios.post("/auth/register", values);
+      const { data } = await axios.post(`${BACKEND_URL}/auth/register`, values);
       if (data.success) {
         alert("Register Successfully ");
         navigate("/");

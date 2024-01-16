@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Select, Button, Switch, InputNumber } from "antd";
 import axios from "axios";
+import { BACKEND_URL } from "../variables";
 
 const { Option } = Select;
 
@@ -23,12 +24,12 @@ const ProgramForm = ({ program, showForm, onCloseForm }) => {
     try {
       if (program) {
         // If program prop is provided, update the existing program
-        await axios.put(`/programs/${program.programid}`, values).then(() => {
+        await axios.put(`${BACKEND_URL}/programs/${program.programid}`, values).then(() => {
           console.log(program.programid);
         });
       } else {
         // Otherwise, create a new program
-        await axios.post("/programs/", values);
+        await axios.post(`${BACKEND_URL}/programs/`, values);
       }
       onCloseForm();
       // You may add additional logic here, such as showing a success message
@@ -41,7 +42,7 @@ const ProgramForm = ({ program, showForm, onCloseForm }) => {
     try {
       if (program) {
         // If program prop is provided, delete the existing program
-        await axios.delete(`/programs/${program.programid}`);
+        await axios.delete(`${BACKEND_URL}/programs/${program.programid}`);
         // onDelete(program.programid);
         message.success("Program deleted successfully!");
         onCloseForm();

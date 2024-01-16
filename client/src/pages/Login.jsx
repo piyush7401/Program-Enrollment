@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import InputForm from '../components/share/InputForm';
 import UserContext from '../context/UserContext';
 import axios from 'axios';
+import { BACKEND_URL } from '../variables';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Login = () => {
     console.log(email, password);
     try {
       setUser({ email, password });
-      const { data } = await axios.post('/auth/login', { email, password });
+      const { data } = await axios.post(`${BACKEND_URL}/auth/login`, { email, password });
       if (data.success) {
         alert('Login Successfully ');
         navigate('/DashBoard');

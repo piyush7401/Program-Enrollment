@@ -4,13 +4,14 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import "./Sidebar.css";
+import { BACKEND_URL } from '../variables';
 
 const Sidebar = ({ onProgramSelect }) => {
   const [programList, setProgramList] = useState([]);
 
   useEffect(() => {
     // Fetch program data from the API (assuming '/programs/' endpoint)
-    axios.get('/programs/')
+    axios.get(`${BACKEND_URL}/programs/`)
       .then(response => setProgramList(response.data))
       .catch(error => console.error('Error fetching program data:', error));
   }, []);
