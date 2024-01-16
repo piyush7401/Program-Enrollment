@@ -1,78 +1,58 @@
-import { Link ,useNavigate} from 'react-router-dom';
-import React, { useState,useContext } from 'react'
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import InputForm from '../components/share/InputForm';
 import UserContext from '../context/UserContext';
-import axios from "axios";
+import axios from 'axios';
 
 const Login = () => {
-
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { setUser } = useContext(UserContext);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const {setUser} = useContext(UserContext);
-
-  const handlesubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log( email, password );
+    console.log(email, password);
     try {
-      setUser({email,password});
-      const {data} = await axios.post('/auth/login',{email,password});
+      setUser({ email, password });
+      const { data } = await axios.post('/auth/login', { email, password });
       if (data.success) {
-        alert("Login Successfully ");
-        navigate("/DashBoard");
+        alert('Login Successfully ');
+        navigate('/DashBoard');
       }
-    } catch {
-      alert("invalid data");
-      console.log(e.error);
+    } catch (error) {
+      alert('Invalid data');
+      console.error(error);
     }
   };
 
-  const handlePasswordchange = (e) => {
+  const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const handleEmailchange = (e) => {
+  const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
   return (
-    <>
-      <div className="form-container">
-        <form className="p-5" onSubmit={handlesubmit}>
-          <div className="mb-3">
-            <h1>Login is Required!!</h1>
-          </div>
-          <h5>
-          <InputForm
-            htmlFor="email"
-            labelText="Email"
-            type="email"
-            name="email"
-            value={email}
-            handleChange={handleEmailchange}
-          ></InputForm>
-          <InputForm
-            htmlFor="password"
-            labelText="Password"
-            type="password"
-            name="password"
-            value={password}
-            handleChange={handlePasswordchange}
-          ></InputForm>
-          <div className="d-flex justify-content-between">
-            <p>
-              Not Registered!! <Link to="/register">Register</Link>
-            </p>
-            <button type="submit" className="btn btn-primary">
-              Login
-            </button>
-          </div>
-          </h5>
-        </form>
-      </div>
-    </>
-  )
-}
+    <div style={{ maxWidth: '500px', margin: 'auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#fff' }}>
+      <form style={{ padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }} onSubmit={handleSubmit}>
+        <div style={{ marginBottom: '1rem', fontSize: '1.2rem' }}>
+          Login is Required!!
+        </div>
+        <InputForm htmlFor="email" labelText="Email" type="email" name="email" value={email} handleChange={handleEmailChange} />
+        <InputForm htmlFor="password" labelText="Password" type="password" name="password" value={password} handleChange={handlePasswordChange} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
+          <p style={{ fontSize: '0.9rem', color: '#555' }}>
+            Not Registered!! <Link to="/register">Register</Link>
+          </p>
+          <button type="submit" style={{ background: '#1890ff', color: '#fff', padding: '8px 16px', border: 'none', borderRadius: '4px' }}>
+            Login
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default Login;

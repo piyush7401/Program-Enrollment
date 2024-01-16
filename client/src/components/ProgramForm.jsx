@@ -9,7 +9,7 @@ const ProgramForm = ({ program, showForm, onCloseForm }) => {
 
   // Set initial values based on whether it's an edit or create
   useEffect(() => {
-    if (showForm &&program) {
+    if (showForm && program) {
       form.setFieldsValue(program);
     } else {
       form.resetFields();
@@ -23,8 +23,8 @@ const ProgramForm = ({ program, showForm, onCloseForm }) => {
     try {
       if (program) {
         // If program prop is provided, update the existing program
-        await axios.put(`/programs/${program.programid}`, values).then(()=>{
-          console.log(program.programid)
+        await axios.put(`/programs/${program.programid}`, values).then(() => {
+          console.log(program.programid);
         });
       } else {
         // Otherwise, create a new program
@@ -108,9 +108,7 @@ const ProgramForm = ({ program, showForm, onCloseForm }) => {
         <Form.Item
           label="Program Type"
           name="program_type"
-          rules={[
-            { required: true, message: "Please select a program type" },
-          ]}
+          rules={[{ required: true, message: "Please select a program type" }]}
         >
           <Select>
             <Option value="FT">Full Time</Option>
@@ -180,9 +178,31 @@ const ProgramForm = ({ program, showForm, onCloseForm }) => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" onClick={handleDelete}>Delete</Button>
+          <Button
+            type="primary"
+            onClick={handleDelete}
+            style={{
+              background: "#1890ff",
+              color: "white",
+              padding: "4px 4px 4px 4px",
+              border: "none",
+              borderRadius: "4px",
+            }}
+          >
+            Delete
+          </Button>
           
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{
+              background: "#1890ff",
+              color: "white",
+              padding: "4px 4px 4px 4px",
+              border: "none",
+              borderRadius: "4px",
+            }}
+          >
             Save
           </Button>
         </Form.Item>

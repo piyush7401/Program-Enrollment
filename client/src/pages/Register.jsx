@@ -25,12 +25,13 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <Form
         name="register"
         onFinish={handleSubmit}
         scrollToFirstError
         className="bg-white p-8 rounded-md shadow-md"
+        style={{ maxWidth: '400px', margin: 'auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
       >
         <div className="mb-8">
           <h1 className="text-2xl font-bold mb-2">Registration is Required!!</h1>
@@ -83,7 +84,7 @@ const Register = () => {
             <p>
               Already Registered!! <Link to="/">Login</Link>
             </p>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" style={{ backgroundColor: '#1890ff' }}>
               Register
             </Button>
           </div>

@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Button } from 'antd';  // Import Button from antd
+import { Button } from 'antd';
+import "./Sidebar.css";
 
 const Sidebar = ({ onProgramSelect }) => {
   const [programList, setProgramList] = useState([]);
@@ -15,16 +16,15 @@ const Sidebar = ({ onProgramSelect }) => {
   }, []);
 
   return (
-    <div>
+    <div className="sidebar-container">
       <h2>Programs</h2>
       <ul>
         {programList.map(program => (
-          <li key={program.programid} onClick={() => onProgramSelect(program)}>
+          <li key={program.programid} onClick={() => onProgramSelect(program)} className="program-item">
             {program.name}
           </li>
         ))}
       </ul>
-  
     </div>
   );
 };
