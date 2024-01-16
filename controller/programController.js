@@ -54,6 +54,10 @@ async function createProgram(req, res) {
     eligibility_criteria,
   } = req.body;
 
+  if(!name || !price || !domain || !program_type || !registrations_status || !description || !placement_assurance || !image_url || !university_name || !faculty_profile || !learning_hours || !certificate_diploma || !eligibility_criteria){
+    return res.status(400).json({ error: 'One or more required fields are missing.' });
+  }
+
   try {
     const result = await pool.query(
       "INSERT INTO programs (name, price, domain, program_type, registrations_status, description, placement_assurance, image_url, university_name, faculty_profile, learning_hours, certificate_diploma, eligibility_criteria, userid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *",

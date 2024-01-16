@@ -1,11 +1,14 @@
+// Sidebar.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Button } from 'antd';  // Import Button from antd
 
-const Sidebar = ({ open, onProgramSelect }) => {
+const Sidebar = ({ onProgramSelect }) => {
   const [programList, setProgramList] = useState([]);
 
   useEffect(() => {
+    // Fetch program data from the API (assuming '/programs/' endpoint)
     axios.get('/programs/')
       .then(response => setProgramList(response.data))
       .catch(error => console.error('Error fetching program data:', error));
@@ -21,10 +24,7 @@ const Sidebar = ({ open, onProgramSelect }) => {
           </li>
         ))}
       </ul>
-      {/* Add a button to navigate to the ProgramForm */}
-      <Link to="/program-form">
-        <button>+</button>
-      </Link>
+  
     </div>
   );
 };
