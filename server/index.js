@@ -35,6 +35,9 @@ pool.query('SELECT NOW()', (err, res) => {
     console.log('Connected to PostgreSQL on', res.rows[0].now);
   }
 });
+app.get('/',(req,res)=>{
+  res.send("hiiiiiii")
+})
 
 const PORT = process.env.PORT || 8000;
 
